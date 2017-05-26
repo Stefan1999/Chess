@@ -1,16 +1,27 @@
+/*
+G Chess version 1.0
+Copyright (c) 2010 Gary Menezes
+
+Copyright Notice
+  You may not use this code for any commercial purpose.
+*/
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.*;
 
-public class Bishop extends ChessPiece
+public class Rook extends ChessPiece
 {
-	private static final long serialVersionUID = -7644829780638720717L;
+	private static final long serialVersionUID = 3819757220079709631L;
+	private boolean hasMoved;
 	
-	public Bishop(boolean isWhite, Location loc)
+	public Rook(boolean isWhite, Location loc)
 	{
 		super(isWhite, loc);
+		
+		hasMoved=false;
 	}
+	
 	public void draw(Graphics g)
 	{
 		final int x = 20;
@@ -30,8 +41,19 @@ public class Bishop extends ChessPiece
 			g.fillRect(10, 10, width, width);
 			g.setColor(Color.WHITE);
 		}
-		g.drawString("B", x, y);
+		g.drawString("R", x, y);
 	}
+	
+	public boolean getHasMoved()
+	{
+		return hasMoved;
+	}
+	
+	public void setHasMoved(boolean input)
+	{
+		hasMoved=input;
+	}
+	
 	public ArrayList<Location> getMoves(BoardState board)
 	{
 		ArrayList<Location> possibleMoves = new ArrayList<Location>();
@@ -45,13 +67,13 @@ public class Bishop extends ChessPiece
 		for(int z=1; z<=32; z++)
 		{
 			if(z<=8)
-				locs[z-1] = new Location(y-z%8, x-z%8);
+				locs[z-1] = new Location(y-z%8, x);
 			else if(z<=16)
-				locs[z-1] = new Location(y-z%8, x+z%8);
+				locs[z-1] = new Location(y, x+z%8);
 			else if(z<=24)
-				locs[z-1] = new Location(y+z%8, x+z%8);
+				locs[z-1] = new Location(y+z%8, x);
 			else
-				locs[z-1] = new Location(y+z%8, x-z%8);
+				locs[z-1] = new Location(y, x-z%8);
 		}
 
 		if(getColor())
@@ -84,10 +106,11 @@ public class Bishop extends ChessPiece
 	public void moveTo(Location moveLoc)
 	{
 		setLocation(moveLoc);
+		hasMoved=true;
 	}
 	
 	public String toString()
 	{
-		return super.toString()+" Bishop";
+		return super.toString()+" Rook";
 	}
 }
